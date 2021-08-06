@@ -12,13 +12,13 @@ I need this code, but don't know where, perhaps should make some middleware, don
 
 Pull your server into this file and start it!
 */
-const express = require("express")
+const server = require('./api/server')
 const cors = require("cors")
 
-const server = express()
+
 const PORT =  process.env.PORT || 5000
 
-server.use(express.json())
+// server.use(express.json())
 server.use(cors())
 
 server.get ('api/hi', (req, res) =>{
@@ -27,6 +27,13 @@ server.get ('api/hi', (req, res) =>{
 
 server.use('*', (req, res) =>{
     res.send(`<h1> Hello, Web44 Sprint 1</h1>`)
+})
+
+server.use((err, req, res, next) => {  //eslint-disable-line
+    res.status(500).json({
+        message: err.message,
+        stack: err.stack,
+    })
 })
 
 server.listen(PORT, () =>{

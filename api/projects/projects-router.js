@@ -1,6 +1,7 @@
 // Write your "projects" router here!
 const express = require('express');
 const Projects = require('./projects-model');
+const { validateProjectsId, validatePoject } = require('./projects-middleware')
 
 const router = express.Router();
 
@@ -14,29 +15,15 @@ router.get('/', (req, res, next) => {
 })
 
 //GET api/projects by id
-router.get('/:id', (req, res, next) => {
-    const {id} = req.params
-    Projects.get(id)
-    .then(project =>{
-        if (project){
-            res.json(project)
-        } else {
-            res.status(404).json({ message: 'project not found'})
-        }
-    })
-    .catch(next)
+router.get('/:id', validateProjectsId, (req, res, next) => {
+    res.json(req.Projects)
 })
 
 //POST api/projects
-router.post('/', (req, res, next) => {
-    const {name, description} = req.body
+router.post('/', validatePoject, (req, res, next) => {
     Projects.insert(req.body)
     .then(post => {
-        if (!name || !description) {
-            res.status(400).json({ message: 'body is missing name'})
-        } else {
-            res.json(post)
-        }
+        res.json(post)
     })
     .catch(next)
 })

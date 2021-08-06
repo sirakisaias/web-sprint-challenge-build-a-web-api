@@ -12,3 +12,24 @@ I need this code, but don't know where, perhaps should make some middleware, don
 
 Pull your server into this file and start it!
 */
+const express = require("express")
+const cors = require("cors")
+
+const server = express()
+const PORT =  process.env.PORT || 5000
+
+server.use(express.json())
+server.use(cors())
+
+server.get ('api/hi', (req, res) =>{
+    res.json({ message: 'api is working'})
+})
+
+server.use('*', (req, res) =>{
+    res.send(`<h1> Hello, Web44 Sprint 1</h1>`)
+})
+
+server.listen(PORT, () =>{
+    console.log(`listening on  port ${PORT}`)
+})
+// console.log(`listening on ${PORT}`)

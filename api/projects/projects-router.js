@@ -27,4 +27,18 @@ router.get('/:id', (req, res, next) => {
     .catch(next)
 })
 
+//POST api/projects
+router.post('/', (req, res, next) => {
+    const {name, description} = req.body
+    Projects.insert(req.body)
+    .then(post => {
+        if (!name || !description) {
+            res.status(400).json({ message: 'body is missing name'})
+        } else {
+            res.json(post)
+        }
+    })
+    .catch(next)
+})
+
 module.exports = router

@@ -28,4 +28,40 @@ router.post('/', validatePoject, (req, res, next) => {
     .catch(next)
 })
 
+//Put api/projects 
+router.put('/:id', async (req, res, next) => {
+    // Projects.update(req.params.id, req.body)
+    // .then(() =>{
+    //     return Projects.get(req.params.id)
+    // })
+    // .then(project =>{
+    //     res.json(project)
+    // })
+    // .catch(next)
+    const {id} = req.params;
+    const body = req.body;
+
+    if (!body.name || !body.description) {
+        res.status(400).json({message: 'fields required'})
+    } else {
+        
+        try {
+            const project = await Projects.update(id, body);
+            res.status(200).json(project)
+        } catch  {
+            next()
+        }
+    }
+})
+
+//DELETE
+router.delete('/:id', validateProjectsId, (req, res, next) => {
+    Projects.remove(req.project.id)
+    .then(() => {
+        res.status(200).json({message: 'deleted'})
+    })
+    .catch(next)
+})
+
+
 module.exports = router

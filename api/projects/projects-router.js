@@ -63,5 +63,26 @@ router.delete('/:id', validateProjectsId, (req, res, next) => {
     .catch(next)
 })
 
+//GET projects/:id/actions
+// router.get(':id/actions', validateProjectsId, (req, res, next) => {
+//     Projects.getProjectActions(req.params.id)
+//     .then(projectAction => {
+//         res.json(projectAction)
+//     })
+//     .catch(next)
+// })
+router.get("/:id/actions", (req, res, next) => {
+    const { id } = req.params;
+    Projects.getProjectActions(id)
+      .then((actions) => {
+        if (!actions) {
+          res.status(404);
+        } else {
+          res.json(actions);
+        }
+      })
+      .catch(next);
+  });
+
 
 module.exports = router

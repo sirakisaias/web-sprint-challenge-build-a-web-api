@@ -3,7 +3,7 @@ const Actions = require("./actions-model");
 
 async function validateActionsId (req, res, next) {
     try {
-        const project = await Actions.get(req.params.id)
+        const action = await Actions.get(req.params.id)
         if (!action) {
             res.status(404).json({ message: 'no such user'})
         } else {
@@ -17,8 +17,8 @@ async function validateActionsId (req, res, next) {
 }
 
 function validateActions (req, res, next) {
-    const { name, description } = req.body
-    if (!name || !description) {
+    const { name, notes } = req.body
+    if (!name && !notes) {
         res.status(400).json({ message: 'body is missing name'})
     } else {
         next()
